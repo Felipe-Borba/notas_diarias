@@ -25,8 +25,8 @@ class _HomeState extends State<Home> {
       textoSalvarAtualizar = "Salvar";
     } else {
       //atualizar
-      _tituloController.text = anotacao.titulo;
-      _descricaoController.text = anotacao.descricao;
+      _tituloController.text = anotacao.titulo ?? "";
+      _descricaoController.text = anotacao.descricao ?? "";
       textoSalvarAtualizar = "Atualizar";
     }
 
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
     }
 
     setState(() {
-      _anotacoes = listaTemporaria;
+      _anotacoes = listaTemporaria!;
     });
     listaTemporaria = null;
 
@@ -122,7 +122,8 @@ class _HomeState extends State<Home> {
     return dataFormatada;
   }
 
-  _removerAnotacao(int id) async {
+  _removerAnotacao(int? id) async {
+    if (id == null) return;
     await _db.removerAnotacao(id);
 
     _recuperarAnotacoes();
@@ -151,9 +152,9 @@ class _HomeState extends State<Home> {
 
                     return Card(
                       child: ListTile(
-                        title: Text(anotacao.titulo),
+                        title: Text(anotacao.titulo ?? ""),
                         subtitle: Text(
-                            "${_formatarData(anotacao.data)} - ${anotacao.descricao}"),
+                            "${_formatarData(anotacao.data ?? "")} - ${anotacao.descricao}"),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
